@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { historicoRouter } from "./routes/historico.routes";
 import { iniciarConsumer, pararConsumer } from "./kafka/consumer";
@@ -5,6 +6,9 @@ import { iniciarConsumer, pararConsumer } from "./kafka/consumer";
 const app = express();
 const PORTA = process.env.PORT ? Number(process.env.PORT) : 3335;
 
+// Sem CORS o frontend (outra origem) não consegue consultar o histórico pelo
+// navegador. Mesmo padrão de postoradar-api/postoradar-auth/postoradar-geo.
+app.use(cors());
 app.use(express.json());
 app.use(historicoRouter);
 
